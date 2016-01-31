@@ -20,17 +20,18 @@ class EventsData extends CodonData
     }
     public static function get_upcoming_events()
     {
-        $query = "SELECT * FROM ".TABLE_PREFIX."events
-                WHERE date >= NOW()
-                ORDER BY date ASC";
+        $query = "SELECT * FROM events                 
+	   WHERE date >= CURDATE() OR (date = CURDATE() AND time >= CURTIME())                 
+	   ORDER BY date ASC";
 
         return DB::get_results($query);
     }
     public static function get_past_events()
     {
-        $query = "SELECT * FROM ".TABLE_PREFIX."events
-                WHERE date < NOW()
+        $query = "SELECT * FROM events
+                WHERE date < CURDATE() OR (date = CURDATE() AND time < CURTIME())
                 ORDER BY date DESC";
+
 
         return DB::get_results($query);
     }
